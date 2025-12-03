@@ -1,23 +1,24 @@
 package com.adarsh.multicalcpro.controller;
 
-import com.adarsh.multicalcpro.service.GeneralCalculatorService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/calculator")
-@RequiredArgsConstructor
-@CrossOrigin(origins = "*", allowedHeaders = "*", methods = {RequestMethod.GET, RequestMethod.POST})// allow frontend access
+@CrossOrigin(origins = "*", allowedHeaders = "*", methods = {RequestMethod.GET})
 public class GeneralCalculatorController {
 
-    private final GeneralCalculatorService generalCalculatorService;
-
     @GetMapping("/general")
-    public double generalCalculator(
+    public double calculate(
             @RequestParam double a,
             @RequestParam double b,
             @RequestParam String operation
     ) {
-        return generalCalculatorService.calculate(a, b, operation);
+        return switch (operation) {
+            case "add" -> a + b;
+            case "subtract" -> a - b;
+            case "multiply" -> a * b;
+            case "divide" -> b != 0 ? a / b : 0;
+            default -> 0;
+        };
     }
 }

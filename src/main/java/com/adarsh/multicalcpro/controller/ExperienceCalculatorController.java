@@ -1,26 +1,27 @@
 package com.adarsh.multicalcpro.controller;
 
-import com.adarsh.multicalcpro.dto.ExperienceResponse;
-import com.adarsh.multicalcpro.service.ExperienceCalculatorService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.Period;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/calculator")
-@RequiredArgsConstructor
-@CrossOrigin(origins = "*", allowedHeaders = "*", methods = {RequestMethod.GET, RequestMethod.POST})
+@CrossOrigin(origins = "*", allowedHeaders = "*", methods = {RequestMethod.GET})
 public class ExperienceCalculatorController {
 
-    private final ExperienceCalculatorService experienceCalculatorService;
-
     @GetMapping("/experience")
-    public ExperienceResponse calculateExperience(
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate start,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate end
-    ) {
-        return experienceCalculatorService.calculateExperience(start, end);
+    public Map<String, Integer> calculateExperience(@RequestParam String start, @RequestParam String end) {
+        LocalDate s = LocalDate.parse(start);
+        LocalDate e = LocalDate.parse(end);
+        Period p = Period.between(s, e);
+
+        Map<String, Integer> resp = new LinkedHashMap<>();
+        resp.put("years", p.getYears());
+        resp.put("months", p.getMonths());
+        resp.put("days", p.getDays());
+        return resp;
     }
 }
