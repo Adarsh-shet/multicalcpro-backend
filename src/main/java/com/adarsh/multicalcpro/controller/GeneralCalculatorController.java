@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/calculator")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "*") // allow frontend access
+@CrossOrigin(origins = "*", allowedHeaders = "*", methods = {RequestMethod.GET, RequestMethod.POST})// allow frontend access
 public class GeneralCalculatorController {
 
     private final GeneralCalculatorService generalCalculatorService;

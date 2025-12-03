@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @RestController
 @RequestMapping("/api/calculator")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "*", allowedHeaders = "*", methods = {RequestMethod.GET, RequestMethod.POST})
 public class AgeCalculatorController {
 
     private final AgeCalculatorService ageCalculatorService;
